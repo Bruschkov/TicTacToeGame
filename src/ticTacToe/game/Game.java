@@ -33,7 +33,7 @@ public class Game {
             current.makeMove(this.board);
             System.out.println(board.toString());
         }
-        this.printWinner(current);
+        this.printResult(current);
     }
 
     public boolean doesGameEnd() {
@@ -69,8 +69,19 @@ public class Game {
         return false;
     }
 
-    public void printWinner(Player player) {
-        System.out.println("Winner: " + player);
+    public void printResult(Player player) {
+        if (this.isDraw()) {
+            System.out.println("Draw!");
+        } else{
+            System.out.println("Winner: " + player);
+        }
+    }
+
+    public boolean isDraw() {
+        if (this.board.isFull() && !this.hasWinner()) {
+            return true;
+        }
+        return false;
     }
 
 }
