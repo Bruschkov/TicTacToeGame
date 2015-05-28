@@ -1,4 +1,7 @@
-package com.company;
+package ticTacToe.game;
+
+import ticTacToe.players.Player;
+import ticTacToe.players.RandomPlayer;
 
 import java.util.Random;
 
