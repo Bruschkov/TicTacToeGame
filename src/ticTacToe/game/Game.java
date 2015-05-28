@@ -69,6 +69,13 @@ public class Game {
         return false;
     }
 
+    public boolean isDraw() {
+        if (this.board.isFull() && !this.hasWinner()) {
+            return true;
+        }
+        return false;
+    }
+
     public void printResult(Player player) {
         if (this.isDraw()) {
             System.out.println("Draw!");
@@ -77,11 +84,5 @@ public class Game {
         }
     }
 
-    public boolean isDraw() {
-        if (this.board.isFull() && !this.hasWinner()) {
-            return true;
-        }
-        return false;
-    }
 
 }
