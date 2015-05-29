@@ -14,8 +14,12 @@ public class Game {
 
     private Player player1;
     private Player player2;
+
+    private Player currentPlayer = null;
     private Board board;
     private boolean toggle;
+
+    private boolean verbose = true;
 
     public Game(Player player1, Player player2) {
         this.board = new Board();
@@ -25,15 +29,21 @@ public class Game {
         this.toggle = r.nextBoolean();
     }
 
-    public void play() {
-        Player current = null;
+    public Game(Player player1, Player player2, boolean verbose) {
+        this(player1, player2);
+        this.verbose = verbose;
+    }
+
+        public void play() {
 
         while (!doesGameEnd()) {
-            current = this.choosePlayer();
-            current.makeMove(this.board);
-            System.out.println(board.toString());
+            currentPlayer = this.choosePlayer();
+            currentPlayer.makeMove(this.board);
+            if (verbose)
+                System.out.println(board.toString());
         }
-        this.printResult(current);
+        if (verbose)
+            this.printResult(currentPlayer);
     }
 
     public boolean doesGameEnd() {
@@ -49,6 +59,15 @@ public class Game {
             return this.player1;
         }
         return this.player2;
+    }
+
+    public Player getWinner() {
+        if (this.hasWinner()) {
+            return this.currentPlayer;
+        }
+        else {
+            return null;
+        }
     }
 
     public boolean hasWinner(){

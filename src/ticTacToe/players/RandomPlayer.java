@@ -7,8 +7,9 @@ import ticTacToe.game.Board;
  */
 public class RandomPlayer extends Player{
 
+
     public RandomPlayer(byte playerNumber) {
-        super(playerNumber);
+        super(playerNumber, "RandomPlayer");
     }
 
     public void makeMove(Board board) {

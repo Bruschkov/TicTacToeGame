@@ -10,17 +10,22 @@ public abstract class Player {
 
     private byte playerNumber;
     private Random r;
+    private String name;
 
-    public Player(byte playerNumber) {
+    public Player(byte playerNumber, String name) {
         this.r = new Random();
         this.playerNumber = playerNumber;
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return "Player" + playerNumber;
+        return "Player " + playerNumber + "(" + this.getName() + ")";
     }
 
+    public String getName() {
+        return this.name;
+    }
     public byte getPlayerNumber() {
         return playerNumber;
     }
