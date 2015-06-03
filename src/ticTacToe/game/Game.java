@@ -10,8 +10,6 @@ import java.util.Random;
  */
 public class Game {
 
-    private static byte[][] winningStates = new byte[][] {{0,1,2},{3,4,5},{6,7,8},{0,3,6},{1,4,7},{2,5,8},{0,4,8},{2,4,6}};
-
     private Player player1;
     private Player player2;
 
@@ -71,11 +69,11 @@ public class Game {
     }
 
     public boolean hasWinner(){
-        for (int i = 0; i < winningStates.length; i++) {
+        for (int i = 0; i < board.getWinningStates().length; i++) {
 
-            int ix1 = winningStates[i][0];
-            int ix2 = winningStates[i][1];
-            int ix3 = winningStates[i][2];
+            int ix1 = board.getWinningStates()[i][0];
+            int ix2 = board.getWinningStates()[i][1];
+            int ix3 = board.getWinningStates()[i][2];
 
             if (this.board.getFields()[ix1] == 0 || this.board.getFields()[ix2] == 0 || this.board.getFields()[ix3] == 0) {
                 continue;

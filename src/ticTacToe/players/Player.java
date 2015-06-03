@@ -9,7 +9,7 @@ import java.util.Random;
 public abstract class Player {
 
     private byte playerNumber;
-    private Random r;
+    public Random r;
     private String name;
 
     public Player(byte playerNumber, String name) {

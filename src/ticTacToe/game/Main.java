@@ -3,6 +3,7 @@ package ticTacToe.game;
 import ticTacToe.players.GreedyPlayer;
 import ticTacToe.players.Player;
 import ticTacToe.players.RandomPlayer;
+import ticTacToe.players.SmartGreedyPlayer;
 
 public class Main {
 
@@ -10,10 +11,10 @@ public class Main {
 
         System.out.println("Playing one game");
 
-        Player player1 = new RandomPlayer((byte)1);
-        Player player2 = new GreedyPlayer((byte)2);
+        Player player1 = new GreedyPlayer((byte)1);
+        Player player2 = new SmartGreedyPlayer((byte)2);
 
-        Game ticTacToe = new Game(player1, player2);
+        Game ticTacToe = new Game(player1, player2, true);
         ticTacToe.play();
 
         System.out.println("Playing many games");
