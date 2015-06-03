@@ -2,6 +2,7 @@ package ticTacToe.players;
 
 import ticTacToe.game.Board;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -15,13 +16,17 @@ public class SmartGreedyPlayer extends Player {
 
     @Override
     public void makeMove(Board board) {
+        int nextMove = -1;
         if(this.checkIfFirstMove(board)) {
-            int firstMove = this.makeFirstMove(board);
-            board.setField(firstMove, this.getPlayerNumber());
+            nextMove = this.makeFirstMove(board);
+        } else if (this.hasChanceToWin(board)) {
+            nextMove = this.determineBestMove(board);
+        } else if (this.opponentHasChanceToWin(board)) {
+            nextMove = this.blockOpponent(this.findOpponentWinningStates(board), board);
         } else {
-            int nextMove = this.determineBestMove(board);
-            board.setField(nextMove, this.getPlayerNumber());
+            nextMove = this.determineBestMove(board);
         }
+        board.setField(nextMove, this.getPlayerNumber());
     }
 
     public boolean checkIfFirstMove(Board board) {
@@ -144,6 +149,63 @@ public class SmartGreedyPlayer extends Player {
         int maxLegalMoves = board.getLegalMoves().size();
         int nextMove = super.getNextMove(maxLegalMoves);
         return board.getLegalMoves().get(nextMove);
+    }
+
+    public boolean opponentHasChanceToWin(Board board) {
+        if (this.findOpponentWinningStates(board).isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
+    public ArrayList<byte[]> findOpponentWinningStates (Board board) {
+        ArrayList<byte[]> opponentWinningStates = new ArrayList<byte[]>();
+
+        for (byte[] winningState: board.getWinningStates()) {
+            int numOccupied = 0;
+            for (int i = 0; i < winningState.length; i++) {
+                if (board.getFields()[winningState[i]] != 0 && board.getFields()[winningState[i]] != this.getPlayerNumber()) {
+                   numOccupied++;
+                }
+            }
+
+            int numEmpty = 0;
+            for (int i = 0; i < winningState.length; i++) {
+                if (board.getFields()[winningState[i]] ==0) {
+                    numEmpty++;
+                }
+            }
+
+            if (numOccupied == 2 && numEmpty == 1) {
+                opponentWinningStates.add(winningState);
+            }
+        }
+        return opponentWinningStates;
+    }
+
+    public int blockOpponent(ArrayList<byte[]> opponentWinningStates, Board board) {
+        byte[] opponentWinningState = opponentWinningStates.get(0);
+
+        for (int i = 0; i < opponentWinningState.length; i++) {
+            if (board.getFields()[opponentWinningState[i]] == 0) {
+                return opponentWinningState[i];
+            }
+        }
+
+        return -1;
+    }
+
+    public boolean hasChanceToWin(Board board) {
+        byte[] bestBet = this.findBestWinningState(this.findPossibleWinningStates(board), board);
+
+        int count = 0;
+        for (int i = 0; i < bestBet.length; i++) {
+            if (board.getFields()[bestBet[i]] == this.getPlayerNumber()) {
+                count++;
+            }
+        }
+
+        return count > 1;
     }
 }
 
