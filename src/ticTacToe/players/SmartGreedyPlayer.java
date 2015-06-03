@@ -196,7 +196,13 @@ public class SmartGreedyPlayer extends Player {
     }
 
     public boolean hasChanceToWin(Board board) {
-        byte[] bestBet = this.findBestWinningState(this.findPossibleWinningStates(board), board);
+        ArrayList<byte[]> possbileWinningStates = this.findPossibleWinningStates(board);
+
+        if (possbileWinningStates.isEmpty()) {
+            return false;
+        }
+
+        byte[] bestBet = this.findBestWinningState(possbileWinningStates, board);
 
         int count = 0;
         for (int i = 0; i < bestBet.length; i++) {
