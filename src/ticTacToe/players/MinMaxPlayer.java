@@ -4,7 +4,6 @@ package ticTacToe.players;
 import ticTacToe.game.Board;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class MinMaxPlayer extends Player {
 
@@ -81,32 +80,6 @@ public class MinMaxPlayer extends Player {
     }
 
     public int utility(Board board) {
-
-        for (int i = 0; i < board.getWinningStates().length; i++) {
-
-            int ix1 = board.getWinningStates()[i][0];
-            int ix2 = board.getWinningStates()[i][1];
-            int ix3 = board.getWinningStates()[i][2];
-
-            if (board.getFields()[ix1] == 0
-                    || board.getFields()[ix2] == 0
-                    || board.getFields()[ix3] == 0) {
-                continue;
-            }
-
-            if (board.getFields()[ix1] == board.getFields()[ix2]
-                    &&  board.getFields()[ix2] == board.getFields()[ix3]) {
-
-                if (board.getFields()[ix1]==this.getPlayerNumber())
-                    return 1;
-                else
-                    return -1;
-            }
-        }
-
-        if (board.isFull())
-            return 0;
-
-        return Integer.MIN_VALUE;
+       return board.getWinnerPerspectiveForPlayer(this.getPlayerNumber());
     }
 }

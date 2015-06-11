@@ -1,29 +1,70 @@
 package ticTacToe.game;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by Jan Brusch on 27.05.2015.
  */
 public class Board implements Cloneable {
 
-    private static byte[][] winningStates = new byte[][] {{0,1,2,3},{4,5,6,7},{8,9,10,11},{12,13,14,15},{0,4,8,12},{1,5,9,13},{2,6,10,14},{3,7,1,15}, {0,5,10,15}, {3,6,9,12}};
-    private byte [] fields;
-    private int boardSize;
+    private static byte[][] winningStates = null;
 
+    private byte [] fields;
+    private byte boardSize;
 
     public Board() {
-        this(4);
+        this((byte)3);
     }
 
-    public Board(int boardSize) {
+    public Board(byte boardSize) {
         this.boardSize = boardSize;
         this.fields = new byte[boardSize*boardSize];
+
+        if (winningStates == null) {
+            winningStates = new byte[2 + boardSize * 2][boardSize];
+            int zz = 0;
+            for (byte zeile = 0; zeile < boardSize; zeile++) {
+                winningStates[zz] = getZeile(zeile);
+                zz++;
+            }
+            for (byte spalte =0; spalte < boardSize; spalte++) {
+                winningStates[zz] = getSpalte(spalte);
+                zz++;
+            }
+            for (byte diag=0; diag<boardSize; diag++) {
+                winningStates[zz][diag] = (byte) (diag * boardSize + diag);
+            }
+            zz++;
+            for (byte diag=0; diag<boardSize; diag++) {
+                winningStates[zz][diag] = (byte) (diag * boardSize + (boardSize - (diag+1)));
+            }
+        }
+
     }
 
     public Board(Board another) {
+        this.boardSize = another.getBoardSize();
         this.fields = another.getFields().clone();
+    }
+
+
+    public byte[] getZeile(byte zeile) {
+        byte[] zeilenIndizes = new byte[this.getBoardSize()];
+        byte startWert = (byte) (zeile * this.getBoardSize());
+        for (byte index = 0; index < this.getBoardSize(); index++) {
+            zeilenIndizes[index] = (byte) (startWert + index);
+        }
+        return zeilenIndizes;
+    }
+
+
+    public byte[] getSpalte(byte spalte) {
+        byte[] spaltenIndizes = new byte[this.getBoardSize()];
+        byte startWert = spalte;
+        for (byte index = 0; index < this.getBoardSize(); index++) {
+            spaltenIndizes[index] = (byte) (startWert + index * this.getBoardSize());
+        }
+        return spaltenIndizes;
     }
 
 
@@ -35,7 +76,8 @@ public class Board implements Cloneable {
         return fields;
     }
 
-    public boolean isFull() {
+    public boolean isFull()
+    {
         int numberZeros = 0;
         for (int i = 0; i < fields.length; i++) {
             if (fields[i] == 0) {
@@ -61,6 +103,33 @@ public class Board implements Cloneable {
         return legal;
     }
 
+
+    public int getWinnerPerspectiveForPlayer(int playerNumber) {
+
+        for (int state = 0; state < getWinningStates().length; state++) {
+
+            boolean matched = true;
+            for (int field = 0; field < getWinningStates()[state].length-1; field++) {
+                matched = matched && (getFields()[getWinningStates()[state][field]] == getFields()[getWinningStates()[state][field+1]]);
+            }
+            matched = matched && (getFields())[getWinningStates()[state][0]] != 0;
+
+            if (matched) {
+                if ((getFields())[getWinningStates()[state][0]] == playerNumber) {
+                    return 1;
+                }
+                else {
+                    return -1;
+                }
+            }
+        }
+
+        if (isFull())
+            return 0;
+
+        return Integer.MIN_VALUE;
+    }
+
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
@@ -80,7 +149,11 @@ public class Board implements Cloneable {
         return winningStates;
     }
 
-    public int getBoardSize() {
-        return this.boardSize*this.boardSize;
+    public byte getBoardSize() {
+        return this.boardSize;
+    }
+
+    public boolean hasWinner() {
+        return (this.getWinnerPerspectiveForPlayer(1)!=0 && this.getWinnerPerspectiveForPlayer(1)!=Integer.MIN_VALUE);
     }
 }

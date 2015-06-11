@@ -1,7 +1,6 @@
 package ticTacToe.game;
 
 import ticTacToe.players.Player;
-import ticTacToe.players.RandomPlayer;
 
 import java.util.Random;
 
@@ -14,7 +13,7 @@ public class Game {
     private Player player2;
 
     private Player currentPlayer = null;
-    private Board board;
+    Board board;
     private boolean toggle;
 
     private boolean verbose = true;
@@ -32,7 +31,7 @@ public class Game {
         this.verbose = verbose;
     }
 
-        public void play() {
+    public void play() {
 
         while (!doesGameEnd()) {
             currentPlayer = this.choosePlayer();
@@ -45,7 +44,7 @@ public class Game {
     }
 
     public boolean doesGameEnd() {
-        if (this.hasWinner() || this.board.isFull()) {
+        if (this.board.hasWinner() || this.board.isFull()) {
             return true;
         }
         return false;
@@ -60,7 +59,7 @@ public class Game {
     }
 
     public Player getWinner() {
-        if (this.hasWinner()) {
+        if (this.board.hasWinner()) {
             return this.currentPlayer;
         }
         else {
@@ -68,26 +67,8 @@ public class Game {
         }
     }
 
-    public boolean hasWinner(){
-        for (int i = 0; i < board.getWinningStates().length; i++) {
-
-            int ix1 = board.getWinningStates()[i][0];
-            int ix2 = board.getWinningStates()[i][1];
-            int ix3 = board.getWinningStates()[i][2];
-
-            if (this.board.getFields()[ix1] == 0 || this.board.getFields()[ix2] == 0 || this.board.getFields()[ix3] == 0) {
-                continue;
-            }
-
-            if (this.board.getFields()[ix1] == this.board.getFields()[ix2] &&  this.board.getFields()[ix2] == this.board.getFields()[ix3]) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public boolean isDraw() {
-        if (this.board.isFull() && !this.hasWinner()) {
+        if (this.board.isFull() && !this.board.hasWinner()) {
             return true;
         }
         return false;

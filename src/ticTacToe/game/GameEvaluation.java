@@ -2,8 +2,6 @@ package ticTacToe.game;
 
 import ticTacToe.players.Player;
 
-import java.awt.*;
-
 /**
  * Created by Danny on 29.05.2015.
  */
@@ -27,7 +25,7 @@ public class GameEvaluation {
             Game g = new Game(player1,player2, false);
             g.play();
 
-            if (g.hasWinner()) {
+            if (g.board.hasWinner()) {
                 wins[g.getWinner().getPlayerNumber() - 1]++;
             }
             else {
