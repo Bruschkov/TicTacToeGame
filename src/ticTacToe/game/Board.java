@@ -136,8 +136,7 @@ public class Board implements Cloneable {
 
         for (int i = 0; i<this.boardSize; i++) {
             for (int j = 0; j<this.boardSize; j++) {
-                sb.append(this.fields[i*this.boardSize+j]);
-                sb.append(" ");
+                sb.append(this.fields[i*this.boardSize+j] == 2 ? " X " : this.fields[i*this.boardSize+j] == 1 ? " O " : " . ");
             }
             sb.append("\n");
         }
