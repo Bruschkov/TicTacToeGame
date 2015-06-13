@@ -18,16 +18,16 @@ public class Game {
 
     private boolean verbose = true;
 
-    public Game(Player player1, Player player2) {
-        this.board = new Board();
+    public Game(Player player1, Player player2, byte boardSize) {
+        this.board = new Board(boardSize);
         this.player1 = player1;
         this.player2 = player2;
         Random r = new Random();
         this.toggle = r.nextBoolean();
     }
 
-    public Game(Player player1, Player player2, boolean verbose) {
-        this(player1, player2);
+    public Game(Player player1, Player player2, byte boardSize, boolean verbose) {
+        this(player1, player2, boardSize);
         this.verbose = verbose;
     }
 

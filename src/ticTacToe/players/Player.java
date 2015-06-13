@@ -11,11 +11,13 @@ public abstract class Player {
     private byte playerNumber;
     public Random r;
     private String name;
+    public int nodesGenerated;
 
     public Player(byte playerNumber, String name) {
         this.r = new Random();
         this.playerNumber = playerNumber;
         this.name = name;
+        this.nodesGenerated = 0;
     }
 
     @Override
@@ -35,4 +37,13 @@ public abstract class Player {
     }
 
     public abstract void makeMove(Board board);
+
+    public int getNodesGenerated() {
+        return nodesGenerated;
+    }
+
+    public void reset() {
+        this.nodesGenerated = 0;
+    }
 }
+

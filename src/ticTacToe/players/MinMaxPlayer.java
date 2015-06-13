@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class MinMaxPlayer extends Player {
 
+
     public MinMaxPlayer(byte playerNumber) {
         this(playerNumber, "MinMaxPlayer");
     }
@@ -16,31 +17,38 @@ public class MinMaxPlayer extends Player {
 
     @Override
     public void makeMove(Board board) {
-        this.minmaxDecision(board);
+        int move = this.minmaxDecision(board);
+        board.setField(move, this.getPlayerNumber());
     }
 
-    public void minmaxDecision(Board board) {
+    public int minmaxDecision(Board board) {
         ArrayList<Integer> goodMoves = new ArrayList<Integer>();
 
-        int max = Integer.MIN_VALUE;
+        int maxValue = Integer.MIN_VALUE;
         int bestMove = -2;
         for (int i: board.getLegalMoves()){
             Board newBoard = new Board(board);
             newBoard.setField(i, this.getPlayerNumber());
             int myValue = min(newBoard);
             //System.out.println(myValue);
-            if (myValue > max) {
-                max = myValue;
+
+            //Greedy Option: If there is a way to win, take the first one
+            if (maxValue == 1) {
+                return i;
+            }
+
+            if (myValue > maxValue) {
+                maxValue = myValue;
                 bestMove = i;
                 //goodMoves.add(i);
                //break;
             }
         }
-        //board.setField(goodMoves.get(r.nextInt(goodMoves.size())), this.getPlayerNumber());
-        board.setField(bestMove, this.getPlayerNumber());
+        return bestMove;
     }
 
     public int max(Board board) {
+        this.nodesGenerated++;
         int localUtility = utility(board);
         if (localUtility != Integer.MIN_VALUE)
             return localUtility;
@@ -56,6 +64,7 @@ public class MinMaxPlayer extends Player {
     }
 
     public int min(Board board) {
+        this.nodesGenerated++;
         int localUtility = utility(board);
         if (localUtility != Integer.MIN_VALUE) {
             return localUtility;
@@ -82,4 +91,6 @@ public class MinMaxPlayer extends Player {
     public int utility(Board board) {
        return board.getWinnerPerspectiveForPlayer(this.getPlayerNumber());
     }
+
 }
+
