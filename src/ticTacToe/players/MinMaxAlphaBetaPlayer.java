@@ -20,10 +20,37 @@ public class MinMaxAlphaBetaPlayer extends Player{
 
     @Override
     public void makeMove(Board board) {
-        int nodesgenerated = this.getNodesGenerated();
-        int move = initialMove(board);
+        int move = -1;
+        if(this.checkIfFirstMove(board)) {
+            move = 0;
+        } else {
+            int nodesgenerated = this.getNodesGenerated();
+            move = initialMove(board);
+            //System.out.println("Nodes generated: " + (this.getNodesGenerated() - nodesgenerated));
+        }
         board.setField(move, this.getPlayerNumber());
-        System.out.println("Nodes generated: " + (this.getNodesGenerated() - nodesgenerated));
+    }
+
+    public boolean checkIfFirstMove(Board board) {
+        int nonNulls = this.checkBoardForOccupiedFields(board);
+
+        if (nonNulls > 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public int checkBoardForOccupiedFields(Board board) {
+        int occupiedFields = 0;
+
+        for (int i = 0; i < board.getFields().length; i++) {
+            if (board.getFields()[i] != 0) {
+                occupiedFields++;
+            }
+        }
+
+        return occupiedFields;
     }
 
     public int initialMove(Board board) {
@@ -34,12 +61,12 @@ public class MinMaxAlphaBetaPlayer extends Player{
             Board newBoard = new Board(board);
             newBoard.setField(i, this.getPlayerNumber());
             int myValue = this.alphaBeta(newBoard, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
-            System.out.println(myValue);
+            //System.out.println(myValue);
 
             //Greedy Option: If there is a way to win, take it immediately
-            if (myValue == 1) {
-                return i;
-            }
+            //if (myValue == 1) {
+             //   return i;
+            //}
 
             if (myValue > maxValue) {
                 maxValue = myValue;
