@@ -17,9 +17,9 @@ public class Main {
 
         /*
         int numberOfGames = 50;
-        byte boardSize = 3;
+        //byte boardSize = 3;
         System.out.println("Playing " + numberOfGames + " games");
-        GameEvaluation evaluation = new GameEvaluation(numberOfGames, player1, player2);
+        GameEvaluation evaluation = new GameEvaluation(numberOfGames, player1, player2, boardSize);
         evaluation.evaluate();
         System.out.println(evaluation);
         */
