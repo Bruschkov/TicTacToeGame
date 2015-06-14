@@ -34,10 +34,10 @@ public class MinMaxAlphaBetaPlayer extends Player{
             Board newBoard = new Board(board);
             newBoard.setField(i, this.getPlayerNumber());
             int myValue = this.alphaBeta(newBoard, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
-            //System.out.println(myValue);
+            System.out.println(myValue);
 
             //Greedy Option: If there is a way to win, take it immediately
-            if (maxValue == 1) {
+            if (myValue == 1) {
                 return i;
             }
 
