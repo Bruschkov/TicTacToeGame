@@ -9,7 +9,7 @@ public class Main {
         //System.out.println("Playing one game");
 
         Player player1 = new HumanPlayer((byte)1);
-        Player player2 = new MinMaxPlayer((byte)2);
+        Player player2 = new MinMaxAlphaBetaPlayer((byte)2);
 
         byte boardSize = 4;
         Game ticTacToe = new Game(player1, player2, boardSize, true);

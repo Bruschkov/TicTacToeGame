@@ -32,10 +32,10 @@ public class MinMaxPlayer extends Player {
             Board newBoard = new Board(board);
             newBoard.setField(i, this.getPlayerNumber());
             int myValue = min(newBoard);
-            //System.out.println(myValue);
+            System.out.println(myValue);
 
             //Greedy Option: If there is a way to win, take the first one
-            if (maxValue == 1) {
+            if (myValue == 1) {
                 return i;
             }
 
