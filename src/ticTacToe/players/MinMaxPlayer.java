@@ -18,9 +18,11 @@ public class MinMaxPlayer extends Player {
     @Override
     public void makeMove(Board board) {
         int nodesgenerated = this.getNodesGenerated();
+        System.out.println("nodes generated so far: " + nodesgenerated);
         int move = this.minmaxDecision(board);
         board.setField(move, this.getPlayerNumber());
-        System.out.println("Nodes generated: " + (this.getNodesGenerated() - nodesgenerated));
+        System.out.println("Nodes generated for this move: " + (this.getNodesGenerated() - nodesgenerated));
+        System.out.println("Nodes generated total: " + this.getNodesGenerated());
     }
 
     public int minmaxDecision(Board board) {
@@ -29,6 +31,7 @@ public class MinMaxPlayer extends Player {
         int maxValue = Integer.MIN_VALUE;
         int bestMove = -2;
         for (int i: board.getLegalMoves()){
+            this.nodesGenerated++;
             Board newBoard = new Board(board);
             newBoard.setField(i, this.getPlayerNumber());
             int myValue = min(newBoard);

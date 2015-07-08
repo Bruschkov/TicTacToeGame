@@ -1,21 +1,31 @@
 package ticTacToe.players;
 
+/**
+ * Created by janbrusch on 03.07.15.
+ *
+ * Player uses HashTable to save results of previously looked up nodes. If the
+ */
+
 import ticTacToe.game.Board;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
-/**
- * Created by janbrusch on 14.06.15.
- */
-public class MinMaxAlphaBetaPlayer extends Player{
+public class HashTablePlayer extends Player{
 
-    public MinMaxAlphaBetaPlayer(byte playerNumber) {
-        this(playerNumber, "MinMaxAlphaBetaPlayer");
+    private Hashtable MaxHashTable;
+    private Hashtable MinHashTable;
+
+    public HashTablePlayer(byte playerNumber) {
+        this(playerNumber, "HashTablePlayer");
     }
 
-    public MinMaxAlphaBetaPlayer(byte playerNumber, String name) {
-        super(playerNumber, name);
+    public HashTablePlayer (byte playerNumber, String playerName) {
+        super(playerNumber, playerName);
+        this.MaxHashTable = new Hashtable();
+        this.MinHashTable = new Hashtable();
     }
+
 
     @Override
     public void makeMove(Board board) {
@@ -95,9 +105,9 @@ public class MinMaxAlphaBetaPlayer extends Player{
                 }
                 alpha = Math.max(alpha, localValue);
             }
-           return localValue;
+            return localValue;
         } else {
-           int localValue = Integer.MAX_VALUE;
+            int localValue = Integer.MAX_VALUE;
 
             for (int i: board.getLegalMoves()) {
                 Board newBoard = new Board(board);
@@ -110,25 +120,5 @@ public class MinMaxAlphaBetaPlayer extends Player{
             }
             return localValue;
         }
-    }
-
-    public int utility(Board board) {
-       return board.getWinnerPerspectiveForPlayer(this.getPlayerNumber());
-    }
-
-    public byte opposingPlayer() {
-        if (this.getPlayerNumber() == 1) {
-            return 2;
-        }
-        return 1;
-    }
-
-    public ArrayList<Integer> sortMoves(Board board) {
-        ArrayList<Integer> sortedMoves = new ArrayList<Integer>();
-
-        //Placeholder
-        sortedMoves = board.getLegalMoves();
-
-        return sortedMoves;
     }
 }
